@@ -1,0 +1,11 @@
+ SELECT TOP 20
+    DatabaseName,
+    CommandType,
+    StartTime,
+    EndTime,
+    DATEDIFF(MINUTE, StartTime, EndTime) AS DurationMinutes,
+    ErrorNumber,
+    ErrorMessage
+FROM dbo.CommandLog
+WHERE CommandType = 'DBCC_CHECKDB'
+ORDER BY StartTime DESC
