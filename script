@@ -1,11 +1,17 @@
- SELECT TOP 20
+SELECT TOP 20
+    ID,
     DatabaseName,
-    CommandType,
     StartTime,
     EndTime,
     DATEDIFF(MINUTE, StartTime, EndTime) AS DurationMinutes,
+    DATEDIFF(SECOND, StartTime, EndTime) AS DurationSeconds,
     ErrorNumber,
-    ErrorMessage
+    ErrorMessage,
+    CASE 
+        WHEN ErrorNumber IS NULL OR ErrorNumber = 0 THEN 'Success'
+        WHEN ErrorNumber > 0 THEN 'Failed'
+        ELSE 'Unknown'
+    END AS Status
 FROM dbo.CommandLog
 WHERE CommandType = 'DBCC_CHECKDB'
 ORDER BY StartTime DESC
